@@ -1,0 +1,41 @@
+unsigned long interval=1000; // The interval the timer runs something
+unsigned long previousMillis=0; // millis() returns an unsigned long.
+
+#include <Servo.h>       //Includes the methods for running a servo from the .h library
+
+Servo myservo;           //Initiate a servo
+int pos = 0;             //Create variable for the positioning of the servo
+boolean test = false;    //A boolean to switch between the two states of the servo, stop/go
+
+void setup() {
+ Serial.begin(9600);     //Serial begin for troubleshooting (creates a console)
+ myservo.attach(A0);     //Attach our initiated servo to the pin in Arduino
+}
+ 
+void loop() {
+ unsigned long currentMillis = millis(); // grab current time
+
+ 
+
+   if ((unsigned long)(currentMillis - previousMillis) >= interval) {     // Standard millis counter
+      if(test != true) {
+        test=true;
+        Serial.print("SANN");
+        previousMillis = currentMillis;
+      } else {
+        test= false;
+        Serial.print("FALSK");
+        previousMillis = currentMillis;
+      }
+      
+   }
+  
+  
+   if (test == true) {        //The if statement checking if the servo should stay for 4 seconds or rotate 180 degrees. 
+    myservo.write(0);          
+  } else if (test == false) {
+    myservo.write(90);
+    delay(4000);
+  }
+    
+}
